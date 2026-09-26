@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShareCare | Share What Matters</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #263238;
+            background: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            width: 100%;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 25px;
+            font-weight: 700;
+            color: #1b5e20;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 500;
+            color: #455a64;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2e7d32;
+        }
+
+        /* LOGIN BUTTON */
+
+        .nav-login {
+            border: 1px solid #2e7d32;
+            padding: 9px 20px;
+            border-radius: 25px;
+            color: #2e7d32 !important;
+        }
+
+        .nav-login:hover {
+            background: #2e7d32;
+            color: white !important;
+        }
+
+        /* REGISTER BUTTON */
+
+        .nav-register {
+            background: #2e7d32;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .nav-register:hover {
+            background: #1b5e20;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 620px;
+            display: flex;
+            align-items: center;
+            padding: 70px 7%;
+            background:
+                linear-gradient(
+                    120deg,
+                    #f1f8f2 0%,
+                    #ffffff 55%,
+                    #e8f5e9 100%
+                );
+        }
+
+        .hero-content {
+            width: 55%;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            line-height: 1.12;
+            color: #1b4332;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 span {
+            color: #2e7d32;
+        }
+
+        .hero p {
+            max-width: 580px;
+            font-size: 19px;
+            color: #607d8b;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn {
+            background: #2e7d32;
+            color: white;
+            padding: 14px 27px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .primary-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            border: 1px solid #2e7d32;
+            color: #2e7d32;
+            padding: 13px 27px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .secondary-btn:hover {
+            background: #e8f5e9;
+        }
+
+        /* ================= HERO VISUAL ================= */
+
+        .hero-visual {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .impact-card {
+            width: 390px;
+            min-height: 390px;
+            border-radius: 30px;
+            background: #ffffff;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(46, 125, 50, 0.15);
+            position: relative;
+        }
+
+        .impact-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: #e8f5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 75px;
+        }
+
+        .impact-card h3 {
+            text-align: center;
+            font-size: 23px;
+            color: #263238;
+            margin-bottom: 10px;
+        }
+
+        .impact-card p {
+            text-align: center;
+            color: #78909c;
+        }
+
+        .mini-card {
+            position: absolute;
+            background: white;
+            padding: 13px 18px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .mini-one {
+            top: 35px;
+            left: -35px;
+        }
+
+        .mini-two {
+            bottom: 40px;
+            right: -35px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 45px 7%;
+            background: #1b4332;
+            color: white;
+            text-align: center;
+        }
+
+        .stat h2 {
+            font-size: 34px;
+            margin-bottom: 5px;
+        }
+
+        .stat p {
+            color: #c8e6c9;
+            font-size: 15px;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section {
+            padding: 90px 7%;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        .section-heading h2 {
+            font-size: 38px;
+            color: #263238;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #78909c;
+            font-size: 17px;
+        }
+
+        /* ================= SERVICE CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            padding: 35px 30px;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+            background: white;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: #e8f5e9;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #263238;
+        }
+
+        .card p {
+            color: #78909c;
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            color: #2e7d32;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* ================= HOW IT WORKS ================= */
+
+        .how-section {
+            background: #f7faf8;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .step {
+            position: relative;
+            padding: 20px;
+        }
+
+        .step-number {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #2e7d32;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: #78909c;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            margin: 0 7% 80px;
+            padding: 70px 40px;
+            border-radius: 25px;
+            background: linear-gradient(120deg, #1b4332, #2e7d32);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: #dcedc8;
+            font-size: 17px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102a1d;
+            color: white;
+            padding: 55px 7% 25px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h2 {
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            color: #b0bec5;
+            max-width: 350px;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 15px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #b0bec5;
+            margin-bottom: 9px;
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: #90a4ae;
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content,
+            .hero-visual {
+                width: 100%;
+            }
+
+            .hero-content {
+                margin-bottom: 60px;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .cards,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links a:not(.nav-login):not(.nav-register) {
+                display: none;
+            }
+
+            .hero {
+                padding: 55px 5%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .impact-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .mini-one {
+                left: -10px;
+            }
+
+            .mini-two {
+                right: -10px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .section {
+                padding: 65px 5%;
+            }
+
+            .section-heading h2 {
+                font-size: 30px;
+            }
+
+            .cta {
+                margin: 0 5% 60px;
+                padding: 50px 25px;
+            }
+
+            .cta h2 {
+                font-size: 30px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+
+            <div class="logo-icon">S</div>
+
+            <div class="logo-text">ShareCare</div>
+
+        </a>
+
+        <div class="nav-links">
+
+            <a href="#home">Home</a>
+
+            <a href="#services">How It Works</a>
+
+            <a href="#about">About</a>
+
+            <a href="#contact">Contact</a>
+
+            <!-- LOGIN -->
+
+            <a href="/login" class="nav-login">
+                Login
+            </a>
+
+            <!-- REGISTER -->
+
+            <a href="/register" class="nav-register">
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                Building a caring community
+            </div>
+
+            <h1>
+                Share what you have.<br>
+                <span>Care for someone.</span>
+            </h1>
+
+            <p>
+                ShareCare connects people who have surplus food and clothing
+                with people and communities who need them. Together, we can
+                reduce waste and make a meaningful difference.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/donate" class="primary-btn">
+                    Start Donating
+                </a>
+
+                <a href="/request" class="secondary-btn">
+                    Request Support
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="impact-card">
+
+                <div class="impact-circle">
+                    🤝
+                </div>
+
+                <h3>
+                    Small Acts. Big Impact.
+                </h3>
+
+                <p>
+                    Every contribution can reach someone who needs it.
+                </p>
+
+                <div class="mini-card mini-one">
+                    Food Sharing
+                </div>
+
+                <div class="mini-card mini-two">
+                    Clothing Support
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <h2>100%</h2>
+
+            <p>Community Driven</p>
+
+        </div>
+
+        <div class="stat">
+
+            <h2>2+</h2>
+
+            <p>Ways to Share</p>
+
+        </div>
+
+        <div class="stat">
+
+            <h2>1</h2>
+
+            <p>Shared Mission</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <section class="section" id="services">
+
+        <div class="section-heading">
+
+            <h2>How You Can Make a Difference</h2>
+
+            <p>
+                Whether you want to donate or need support,
+                ShareCare makes the process simple.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🍱
+                </div>
+
+                <h3>Donate Food</h3>
+
+                <p>
+                    Share surplus or freshly prepared food with
+                    people and organizations that need it.
+                </p>
+
+                <a href="/donate-food" class="card-link">
+                    Donate Food →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👕
+                </div>
+
+                <h3>Donate Clothing</h3>
+
+                <p>
+                    Give clean, usable clothing a second life
+                    by connecting it with someone who needs it.
+                </p>
+
+                <a href="/donate-food" class="card-link">
+                    Donate Clothes →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ❤️
+                </div>
+
+                <h3>Request Support</h3>
+
+                <p>
+                    Individuals and organizations can request
+                    available food or clothing support.
+                </p>
+
+                <a href="/request" class="card-link">
+                    Request Help →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section class="section how-section" id="about">
+
+        <div class="section-heading">
+
+            <h2>How ShareCare Works</h2>
+
+            <p>
+                Making redistribution simple, transparent and accessible.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h3>Share</h3>
+
+                <p>
+                    List the food or clothing you would like
+                    to donate.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h3>Connect</h3>
+
+                <p>
+                    Our platform connects donations with
+                    people or organizations requesting support.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h3>Care</h3>
+
+                <p>
+                    Donations reach the people who need them,
+                    reducing waste and creating impact.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta" id="contact">
+
+        <h2>
+            Your Extra Can Become Someone's Essential.
+        </h2>
+
+        <p>
+            Join ShareCare and become part of a community
+            that believes resources should reach people,
+            not land in waste.
+        </p>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+
+                <h2>ShareCare</h2>
+
+                <p>
+                    A community-driven platform for redistributing
+                    food and clothing to people who need them.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>Platform</h4>
+
+                <a href="/">Home</a>
+
+                <a href="/donate">Donate</a>
+
+                <a href="/request">Request Support</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>Account</h4>
+
+                <a href="/login">Login</a>
+
+                <a href="/register">Register</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>Contact</h4>
+
+                <a href="mailto:contact@sharecare.com">
+                    contact@sharecare.com
+                </a>
+
+                <a href="#">
+                    Community Support
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © 2026 ShareCare. Built for a more caring community.
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
+

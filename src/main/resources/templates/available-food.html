@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShareCare | Available Donations</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f8f6;
+            color: #263238;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 76px;
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #e8ece9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #2e7d32;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            font-size: 25px;
+            font-weight: 700;
+            color: #1b5e20;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: #546e7a;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2e7d32;
+        }
+
+        .nav-donate {
+            background: #2e7d32;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 24px;
+        }
+
+        .nav-donate:hover {
+            background: #1b5e20;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background: linear-gradient(
+                120deg,
+                #e8f5e9,
+                #ffffff,
+                #f1f8f2
+            );
+
+            padding: 70px 7% 65px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 17px;
+            border-radius: 30px;
+            background: #dff2e1;
+            color: #2e7d32;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            color: #1b4332;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 span {
+            color: #2e7d32;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: auto;
+            color: #607d8b;
+            font-size: 17px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 86%;
+            max-width: 1250px;
+            margin: 55px auto 90px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .top-bar h2 {
+            color: #263238;
+            font-size: 26px;
+        }
+
+        .count {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ================= DONATION GRID ================= */
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .food-card {
+            background: white;
+            border: 1px solid #e8ece9;
+            border-radius: 18px;
+            padding: 28px;
+            transition: 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .food-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 35px rgba(46, 125, 50, 0.12);
+        }
+
+        /* ================= ICON ================= */
+
+        .food-icon {
+            width: 62px;
+            height: 62px;
+            background: #e8f5e9;
+            border-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 31px;
+            margin-bottom: 20px;
+        }
+
+        /* ================= DONATION TYPE ================= */
+
+        .donation-type {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 12px;
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* ================= CARD TITLE ================= */
+
+        .food-card h3 {
+            font-size: 22px;
+            color: #263238;
+            margin-bottom: 14px;
+        }
+
+        /* ================= INFORMATION ================= */
+
+        .food-info {
+            margin-bottom: 18px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 9px;
+
+            color: #607d8b;
+            font-size: 14px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #455a64;
+        }
+
+        /* ================= DESCRIPTION ================= */
+
+        .description {
+            background: #f7faf8;
+            border-radius: 10px;
+            padding: 13px;
+
+            color: #607d8b;
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        /* ================= REQUEST BUTTON ================= */
+
+        .request-btn {
+            display: block;
+            width: 100%;
+
+            text-align: center;
+
+            background: #2e7d32;
+            color: white;
+
+            padding: 12px;
+
+            border-radius: 9px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .request-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-1px);
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .empty-state {
+            background: white;
+            border: 1px solid #e8ece9;
+            border-radius: 20px;
+
+            padding: 70px 25px;
+
+            text-align: center;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .empty-icon {
+            width: 85px;
+            height: 85px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #e8f5e9;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 42px;
+        }
+
+        .empty-state h2 {
+            color: #263238;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #78909c;
+            margin-bottom: 25px;
+        }
+
+        .donate-btn {
+            display: inline-block;
+
+            background: #2e7d32;
+            color: white;
+
+            padding: 12px 24px;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+        }
+
+        .donate-btn:hover {
+            background: #1b5e20;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102a1d;
+            color: white;
+
+            padding: 35px 7%;
+
+            text-align: center;
+        }
+
+        footer h3 {
+            margin-bottom: 8px;
+        }
+
+        footer p {
+            color: #b0bec5;
+            font-size: 14px;
+        }
+
+        .copyright {
+            margin-top: 18px;
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255,255,255,0.1);
+
+            color: #90a4ae;
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 950px) {
+
+            .food-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a:not(.nav-donate) {
+                display: none;
+            }
+
+            .hero {
+                padding: 55px 5%;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                align-items: flex-start;
+                gap: 10px;
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <div class="logo-text">
+                ShareCare
+            </div>
+
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/request">
+                My Requests
+            </a>
+
+            <a href="/donate-food" class="nav-donate">
+                Donate
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="badge">
+            Community Support
+        </div>
+
+        <h1>
+            Available <span>Donations</span>
+        </h1>
+
+        <p>
+            Discover items shared by generous members of the
+            ShareCare community and request the support you need.
+        </p>
+
+    </section>
+
+
+    <!-- ================= DONATION CONTENT ================= -->
+
+    <main class="container">
+
+        <div class="top-bar">
+
+            <h2>
+                Available Near You
+            </h2>
+
+            <div class="count">
+
+                <span th:text="${#lists.size(foodDonations)}">
+                    0
+                </span>
+
+                Donations Available
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= DONATION CARDS ================= -->
+
+        <div class="food-grid"
+             th:if="${foodDonations != null and !#lists.isEmpty(foodDonations)}">
+
+            <div class="food-card"
+                 th:each="food : ${foodDonations}">
+
+
+                <!-- ICON -->
+
+                <div class="food-icon">
+
+    <span th:if="${food.donationType == 'Food'}">
+        🍱
+    </span>
+
+    <span th:if="${food.donationType == 'Clothes'}">
+        👕
+    </span>
+
+    <span th:if="${food.donationType == 'Medicine'}">
+        💊
+    </span>
+
+    <span th:if="${food.donationType == 'Books'}">
+        📚
+    </span>
+
+    <span th:if="${food.donationType == 'Money'}">
+        💰
+    </span>
+
+    <span th:if="${food.donationType == 'Other'}">
+        🎁
+    </span>
+
+</div>
+
+
+                <!-- DONATION TYPE -->
+
+                <div class="donation-type"
+                     th:text="${food.donationType}">
+
+                    Food
+
+                </div>
+
+
+                <!-- ITEM NAME -->
+
+                <h3 th:text="${food.itemName}">
+
+                    Item Name
+
+                </h3>
+
+
+                <!-- INFORMATION -->
+
+                <div class="food-info">
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="info-row">
+
+                        <span>
+                            📦
+                        </span>
+
+                        <span>
+
+                            <span class="info-label">
+                                Quantity:
+                            </span>
+
+                            <span th:text="${food.quantity}">
+                                Quantity
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="info-row">
+
+                        <span>
+                            📍
+                        </span>
+
+                        <span>
+
+                            <span class="info-label">
+                                Location:
+                            </span>
+
+                            <span th:text="${food.location}">
+                                Location
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="info-row">
+
+                        <span>
+                            📞
+                        </span>
+
+                        <span>
+
+                            <span class="info-label">
+                                Contact:
+                            </span>
+
+                            <span th:text="${food.phone}">
+                                Phone
+                            </span>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="description"
+                     th:text="${food.description}">
+
+                    Donation description will appear here.
+
+                </div>
+
+
+                <!-- REQUEST -->
+
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= EMPTY STATE ================= -->
+
+        <div class="empty-state"
+             th:if="${foodDonations == null or #lists.isEmpty(foodDonations)}">
+
+
+            <div class="empty-icon">
+                🎁
+            </div>
+
+
+            <h2>
+                No Donations Yet
+            </h2>
+
+
+            <p>
+                There are currently no donations available.
+                Be the first person to share something with the community.
+            </p>
+
+
+            <a href="/donate-food"
+               class="donate-btn">
+
+                Make a Donation
+
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <h3>
+            ShareCare
+        </h3>
+
+        <p>
+            Share what you have. Care for someone.
+        </p>
+
+        <div class="copyright">
+
+            © 2026 ShareCare.
+            Building a more caring community.
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
+

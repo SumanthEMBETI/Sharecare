@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>ShareCare | Support Requests</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f5f8f6;
+        color: #263238;
+        min-height: 100vh;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+        height: 74px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.98);
+        border-bottom: 1px solid #e3ebe5;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 7%;
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo-icon {
+        width: 42px;
+        height: 42px;
+
+        background: #2e7d32;
+        color: white;
+
+        border-radius: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 21px;
+        font-weight: 700;
+
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.18);
+    }
+
+    .logo-text {
+        color: #1b5e20;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .back-btn {
+        color: #2e7d32;
+
+        padding: 9px 18px;
+
+        border: 1px solid #2e7d32;
+        border-radius: 22px;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        transition: 0.25s;
+    }
+
+    .back-btn:hover {
+        background: #2e7d32;
+        color: white;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+        background:
+            linear-gradient(
+                135deg,
+                #eaf6ec 0%,
+                #ffffff 52%,
+                #eef8f0 100%
+            );
+
+        padding: 62px 7% 68px;
+
+        text-align: center;
+    }
+
+    .hero-icon {
+        width: 82px;
+        height: 82px;
+
+        margin: 0 auto 20px;
+
+        background: #e8f5e9;
+
+        border-radius: 24px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 40px;
+
+        box-shadow: 0 10px 30px rgba(46, 125, 50, 0.08);
+    }
+
+    .hero h1 {
+        color: #183b29;
+
+        font-size: 43px;
+        line-height: 1.2;
+
+        margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+        color: #2e7d32;
+    }
+
+    .hero p {
+        max-width: 680px;
+
+        margin: auto;
+
+        color: #607d8b;
+
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    /* ================= MAIN ================= */
+
+    .main {
+        padding: 50px 20px 90px;
+    }
+
+    .container {
+        max-width: 1150px;
+        margin: auto;
+    }
+
+    /* ================= TOP BAR ================= */
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 25px;
+    }
+
+    .request-count {
+        color: #607d8b;
+        font-size: 14px;
+    }
+
+    .request-count strong {
+        color: #1b5e20;
+        font-size: 17px;
+    }
+
+    .request-badge {
+        background: #e8f5e9;
+        color: #2e7d32;
+
+        padding: 8px 14px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+        font-weight: 700;
+
+        letter-spacing: 0.5px;
+    }
+
+    /* ================= GRID ================= */
+
+    .requests-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 24px;
+    }
+
+    /* ================= CARD ================= */
+
+    .request-card {
+        background: #ffffff;
+
+        border: 1px solid #e2e9e4;
+
+        border-radius: 20px;
+
+        padding: 28px;
+
+        box-shadow:
+            0 8px 30px rgba(30, 70, 40, 0.06);
+
+        transition: 0.25s;
+    }
+
+    .request-card:hover {
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 18px 45px rgba(30, 70, 40, 0.10);
+    }
+
+    /* ================= CARD HEADER ================= */
+
+    .card-header {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: flex-start;
+
+        gap: 15px;
+
+        margin-bottom: 23px;
+    }
+
+    .request-title {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+    }
+
+    .request-icon {
+        width: 48px;
+        height: 48px;
+
+        background: #e8f5e9;
+
+        border-radius: 13px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 24px;
+
+        flex-shrink: 0;
+    }
+
+    .request-title h3 {
+        color: #263238;
+
+        font-size: 18px;
+        font-weight: 700;
+
+        line-height: 1.3;
+
+        word-break: break-word;
+    }
+
+    .request-title small {
+        display: block;
+
+        color: #90a4ae;
+
+        font-size: 11px;
+
+        margin-top: 3px;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.5px;
+    }
+
+    /* ================= STATUS ================= */
+
+    .status {
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        font-size: 10px;
+
+        font-weight: 700;
+
+        letter-spacing: 0.5px;
+
+        white-space: nowrap;
+    }
+
+    .status-pending {
+        background: #fff8e1;
+        color: #f57f17;
+    }
+
+    .status-accepted {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-other {
+        background: #eceff1;
+        color: #546e7a;
+    }
+
+    /* ================= DETAILS ================= */
+
+    .details {
+        border-top: 1px solid #edf1ee;
+        border-bottom: 1px solid #edf1ee;
+
+        margin-bottom: 20px;
+    }
+
+    .detail-row {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        padding: 12px 0;
+    }
+
+    .detail-label {
+        color: #90a4ae;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .detail-value {
+        color: #37474f;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        text-align: right;
+
+        word-break: break-word;
+    }
+
+    /* ================= DESCRIPTION ================= */
+
+    .description-box {
+        background: #f7faf8;
+
+        border-radius: 11px;
+
+        padding: 15px;
+
+        margin-bottom: 22px;
+    }
+
+    .description-title {
+        color: #607d8b;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 0.5px;
+
+        margin-bottom: 7px;
+    }
+
+    .description-text {
+        color: #455a64;
+
+        font-size: 13px;
+
+        line-height: 1.65;
+
+        word-break: break-word;
+    }
+
+    /* ================= PROVIDE BUTTON ================= */
+
+    .provide-btn {
+        width: 100%;
+
+        padding: 14px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background: #2e7d32;
+
+        color: white;
+
+        font-family: inherit;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+
+        box-shadow:
+            0 7px 18px rgba(46, 125, 50, 0.15);
+    }
+
+    .provide-btn:hover {
+        background: #1b5e20;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 24px rgba(46, 125, 50, 0.22);
+    }
+
+    /* ================= ACCEPTED BUTTON ================= */
+
+    .accepted-btn {
+        width: 100%;
+
+        padding: 14px;
+
+        border: 1px solid #c8e6c9;
+
+        border-radius: 10px;
+
+        background: #e8f5e9;
+
+        color: #2e7d32;
+
+        font-family: inherit;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        cursor: default;
+    }
+
+    /* ================= EMPTY STATE ================= */
+
+    .empty-state {
+        background: #ffffff;
+
+        border: 1px solid #e3e9e5;
+
+        border-radius: 22px;
+
+        padding: 75px 25px;
+
+        text-align: center;
+
+        box-shadow:
+            0 10px 35px rgba(30, 70, 40, 0.05);
+    }
+
+    .empty-icon {
+        width: 75px;
+        height: 75px;
+
+        margin: 0 auto 20px;
+
+        border-radius: 22px;
+
+        background: #e8f5e9;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 37px;
+    }
+
+    .empty-state h2 {
+        color: #37474f;
+
+        font-size: 24px;
+
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        color: #90a4ae;
+
+        font-size: 14px;
+
+        max-width: 500px;
+
+        margin: auto;
+
+        line-height: 1.6;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        background: #102a1d;
+
+        color: white;
+
+        text-align: center;
+
+        padding: 28px 20px;
+    }
+
+    footer p {
+        color: #90a4ae;
+
+        font-size: 12px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 850px) {
+
+        .requests-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 37px;
+        }
+    }
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            padding: 0 5%;
+        }
+
+        .logo-text {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .hero {
+            padding: 50px 5% 55px;
+        }
+
+        .hero h1 {
+            font-size: 31px;
+        }
+
+        .hero p {
+            font-size: 14px;
+        }
+
+        .main {
+            padding: 40px 15px 70px;
+        }
+
+        .top-bar {
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .request-card {
+            padding: 22px;
+        }
+
+        .card-header {
+            align-items: flex-start;
+        }
+
+        .request-title h3 {
+            font-size: 16px;
+        }
+
+        .detail-row {
+            align-items: flex-start;
+        }
+
+        .detail-value {
+            max-width: 60%;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <a href="/dashboard" class="logo">
+
+        <div class="logo-icon">
+            S
+        </div>
+
+        <div class="logo-text">
+            ShareCare
+        </div>
+
+    </a>
+
+    <a href="/dashboard" class="back-btn">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-icon">
+        🤝
+    </div>
+
+    <h1>
+        Community <span>Support Requests</span>
+    </h1>
+
+    <p>
+        Browse support requests shared by members of the ShareCare
+        community. If you have the resources to help, you can provide
+        support and make a meaningful difference.
+    </p>
+
+</section>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <div class="container">
+
+
+        <!-- ================= TOP BAR ================= -->
+
+        <div class="top-bar"
+             th:if="${requests != null and !requests.isEmpty()}">
+
+            <p class="request-count">
+
+                <strong th:text="${#lists.size(requests)}">
+                    0
+                </strong>
+
+                support request(s) available
+
+            </p>
+
+            <span class="request-badge">
+                COMMUNITY SUPPORT
+            </span>
+
+        </div>
+
+
+        <!-- ================= REQUEST GRID ================= -->
+
+        <div class="requests-grid"
+             th:if="${requests != null and !requests.isEmpty()}">
+
+
+            <!-- ================= REQUEST CARD ================= -->
+
+            <div class="request-card"
+                 th:each="request : ${requests}">
+
+
+                <!-- CARD HEADER -->
+
+                <div class="card-header">
+
+                    <div class="request-title">
+
+
+                        <!-- REQUEST ICON -->
+
+                        <div class="request-icon">
+
+                            <!-- Food -->
+
+                            <span th:if="${request.itemName != null and #strings.containsIgnoreCase(request.itemName, 'food')}">
+                                🍱
+                            </span>
+
+                            <!-- Clothing -->
+
+                            <span th:if="${request.itemName != null and #strings.containsIgnoreCase(request.itemName, 'cloth')}">
+                                👕
+                            </span>
+
+                            <!-- Books -->
+
+                            <span th:if="${request.itemName != null and #strings.containsIgnoreCase(request.itemName, 'book')}">
+                                📚
+                            </span>
+
+                            <!-- School -->
+
+                            <span th:if="${request.itemName != null and #strings.containsIgnoreCase(request.itemName, 'school')}">
+                                🎒
+                            </span>
+
+                            <!-- House -->
+
+                            <span th:if="${request.itemName != null and #strings.containsIgnoreCase(request.itemName, 'house')}">
+                                🏠
+                            </span>
+
+                            <!-- Other -->
+
+                            <span th:if="${request.itemName == null or
+                                (
+                                    !#strings.containsIgnoreCase(request.itemName, 'food')
+                                    and !#strings.containsIgnoreCase(request.itemName, 'cloth')
+                                    and !#strings.containsIgnoreCase(request.itemName, 'book')
+                                    and !#strings.containsIgnoreCase(request.itemName, 'school')
+                                    and !#strings.containsIgnoreCase(request.itemName, 'house')
+                                )}">
+                                🎁
+                            </span>
+
+                        </div>
+
+
+                        <!-- REQUEST NAME -->
+
+                        <div>
+
+                            <h3 th:text="${request.itemName}">
+                                Support Request
+                            </h3>
+
+                            <small>
+                                Support Needed
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= STATUS ================= -->
+
+                    <span th:if="${request.status == 'PENDING'}"
+                          class="status status-pending">
+
+                        PENDING
+
+                    </span>
+
+
+                    <span th:if="${request.status == 'ACCEPTED'}"
+                          class="status status-accepted">
+
+                        ACCEPTED
+
+                    </span>
+
+
+                    <span th:if="${request.status != 'PENDING' and request.status != 'ACCEPTED'}"
+                          class="status status-other"
+                          th:text="${request.status}">
+
+                        STATUS
+
+                    </span>
+
+                </div>
+
+
+                <!-- ================= DETAILS ================= -->
+
+                <div class="details">
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Required Quantity
+                        </span>
+
+                        <span class="detail-value"
+                              th:text="${request.quantity}">
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Location
+                        </span>
+
+                        <span class="detail-value"
+                              th:text="${request.location}">
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Contact Number
+                        </span>
+
+                        <span class="detail-value"
+                              th:text="${request.phone}">
+                            —
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= DESCRIPTION ================= -->
+
+                <div class="description-box"
+                     th:if="${request.description != null and !request.description.isEmpty()}">
+
+                    <div class="description-title">
+                        ADDITIONAL INFORMATION
+                    </div>
+
+                    <div class="description-text"
+                         th:text="${request.description}">
+
+                        Additional information about the request.
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= PROVIDE SUPPORT ================= -->
+
+                <form th:if="${request.status == 'PENDING'}"
+                      th:action="@{/requests/accept/{id}(id=${request.id})}"
+                      method="post">
+
+                    <button type="submit"
+                            class="provide-btn">
+
+                        I Can Provide Support →
+
+                    </button>
+
+                </form>
+
+
+                <!-- ================= ACCEPTED ================= -->
+
+                <button th:if="${request.status == 'ACCEPTED'}"
+                        class="accepted-btn"
+                        disabled>
+
+                    ✓ Support Already Provided
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= EMPTY STATE ================= -->
+
+        <div class="empty-state"
+             th:if="${requests == null or requests.isEmpty()}">
+
+            <div class="empty-icon">
+                🤝
+            </div>
+
+            <h2>
+                No Support Requests Yet
+            </h2>
+
+            <p>
+                There are currently no requests from the community.
+                New requests will appear here when someone needs
+                support.
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 ShareCare · Share what you have. Care for someone.
+    </p>
+
+</footer>
+```
+
+</body>
+
+</html>

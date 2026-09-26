@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | ShareCare</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            background: #f5f8f6;
+            color: #263238;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 76px;
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #e7ece9;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #2e7d32;
+            color: white;
+
+            border-radius: 12px;
+
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            color: #1b5e20;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .home-link {
+            color: #546e7a;
+            font-size: 14px;
+            font-weight: 500;
+
+            padding: 9px 18px;
+            border-radius: 22px;
+
+            transition: 0.3s;
+        }
+
+        .home-link:hover {
+            color: #2e7d32;
+            background: #f1f8f2;
+        }
+
+        .register-link {
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
+
+            padding: 9px 20px;
+            border-radius: 22px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .register-link:hover {
+            background: #2e7d32;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            min-height: calc(100vh - 76px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 55px 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1050px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: white;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px rgba(30, 70, 45, 0.10);
+        }
+
+        /* ================= LEFT PANEL ================= */
+
+        .welcome-panel {
+            position: relative;
+
+            padding: 60px 55px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1b4332,
+                    #2e7d32
+                );
+
+            color: white;
+
+            overflow: hidden;
+        }
+
+        .welcome-panel::before {
+            content: "";
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.06);
+
+            top: -100px;
+            right: -90px;
+        }
+
+        .welcome-panel::after {
+            content: "";
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.05);
+
+            bottom: -100px;
+            left: -70px;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+
+            padding: 7px 14px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.13);
+
+            color: #e8f5e9;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 28px;
+        }
+
+        .welcome-panel h1 {
+            font-size: 42px;
+            line-height: 1.15;
+
+            margin-bottom: 20px;
+        }
+
+        .welcome-panel h1 span {
+            color: #c8e6c9;
+        }
+
+        .welcome-description {
+            max-width: 410px;
+
+            color: #dcedc8;
+
+            font-size: 16px;
+            line-height: 1.7;
+
+            margin-bottom: 38px;
+        }
+
+        /* ================= BENEFITS ================= */
+
+        .benefit {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 18px;
+        }
+
+        .benefit-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.13);
+
+            border-radius: 9px;
+
+            font-size: 16px;
+        }
+
+        .benefit span {
+            font-size: 14px;
+            color: #f1f8e9;
+        }
+
+        /* ================= RIGHT PANEL ================= */
+
+        .form-panel {
+            padding: 60px 65px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 34px;
+        }
+
+        .form-header h2 {
+            color: #263238;
+
+            font-size: 32px;
+
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            color: #78909c;
+
+            font-size: 14px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+
+            color: #37474f;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #90a4ae;
+
+            font-size: 17px;
+
+            pointer-events: none;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            height: 50px;
+
+            padding: 0 15px 0 45px;
+
+            border: 1px solid #d5ddda;
+
+            border-radius: 10px;
+
+            background: #fbfcfb;
+
+            color: #263238;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+        .form-group input::placeholder {
+            color: #a0adb2;
+        }
+
+        .form-group input:focus {
+            background: white;
+
+            border-color: #2e7d32;
+
+            box-shadow:
+                0 0 0 3px rgba(46,125,50,0.09);
+        }
+
+        /* ================= PASSWORD ================= */
+
+        .password-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 8px;
+        }
+
+        .password-header label {
+            margin-bottom: 0;
+        }
+
+        .forgot {
+            color: #2e7d32;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= LOGIN BUTTON ================= */
+
+        .login-button {
+            width: 100%;
+
+            height: 51px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #2e7d32;
+            color: white;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            transition: 0.3s;
+        }
+
+        .login-button:hover {
+            background: #1b5e20;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(46,125,50,0.20);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        /* ================= REGISTER ================= */
+
+        .register-text {
+            text-align: center;
+
+            margin-top: 27px;
+
+            color: #78909c;
+
+            font-size: 14px;
+        }
+
+        .register-text a {
+            color: #2e7d32;
+
+            font-weight: 700;
+
+            margin-left: 4px;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        .secure-text {
+            text-align: center;
+
+            color: #90a4ae;
+
+            font-size: 12px;
+
+            margin-top: 25px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .login-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+            }
+
+            .welcome-panel {
+                padding: 45px 40px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 34px;
+            }
+
+            .welcome-description {
+                margin-bottom: 25px;
+            }
+
+            .form-panel {
+                padding: 45px 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .home-link {
+                display: none;
+            }
+
+            .main {
+                padding: 25px 15px;
+            }
+
+            .welcome-panel {
+                padding: 38px 30px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 30px;
+            }
+
+            .form-panel {
+                padding: 40px 30px;
+            }
+
+            .form-header h2 {
+                font-size: 28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="/" class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <div class="logo-text">
+                ShareCare
+            </div>
+
+        </a>
+
+
+        <div class="nav-right">
+
+            <a href="/" class="home-link">
+                Home
+            </a>
+
+            <a href="/register" class="register-link">
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <div class="login-wrapper">
+
+
+            <!-- ================= WELCOME ================= -->
+
+            <section class="welcome-panel">
+
+                <div class="welcome-content">
+
+                    <div class="welcome-badge">
+                        Welcome back to ShareCare
+                    </div>
+
+
+                    <h1>
+                        Together, we can
+                        <span>make a difference.</span>
+                    </h1>
+
+
+                    <p class="welcome-description">
+
+                        Your contribution can turn someone's
+                        surplus into another person's essential.
+                        Continue your journey with ShareCare.
+
+                    </p>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Share surplus food with those in need
+                        </span>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Give usable clothing a second life
+                        </span>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ✓
+                        </div>
+
+                        <span>
+                            Connect with your local community
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= LOGIN FORM ================= -->
+
+            <section class="form-panel">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Sign in
+                    </h2>
+
+                    <p>
+                        Enter your details to access your ShareCare account.
+                    </p>
+
+                </div>
+
+
+                <form action="/login" method="post" autocomplete="off">
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ☎
+                            </span>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Enter your 10-digit phone number"
+                                maxlength="10"
+                                pattern="[0-9]{10}"
+                                autocomplete="off"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <div class="password-header">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a href="#" class="forgot">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="new-password"
+    							required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LOGIN -->
+
+                    <button
+                        type="submit"
+                        class="login-button">
+
+                        Login to ShareCare
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- REGISTER -->
+
+                <div class="register-text">
+
+                    Don't have an account?
+
+                    <a href="/register">
+                        Create an account
+                    </a>
+
+                </div>
+
+
+                <div class="secure-text">
+
+                    Your account information is securely handled by ShareCare.
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
+
