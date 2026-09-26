@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Join ShareCare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            background:
+                linear-gradient(rgba(18, 67, 40, 0.82), rgba(18, 67, 40, 0.82)),
+                linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 20px;
+        }
+
+        /* Main Card */
+
+        .register-card {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 620px;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 42% 58%;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.22);
+        }
+
+        /* Left Section */
+
+        .brand-section {
+            position: relative;
+            padding: 55px 45px;
+            background:
+                linear-gradient(
+                    rgba(27, 94, 32, 0.93),
+                    rgba(46, 125, 50, 0.93)
+                );
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand span {
+            color: #b9f6ca;
+        }
+
+        .brand-content {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .brand-content h1 {
+            font-size: 42px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .brand-content p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #e8f5e9;
+            max-width: 350px;
+        }
+
+        .impact-list {
+            margin-top: 30px;
+            list-style: none;
+        }
+
+        .impact-list li {
+            margin-bottom: 15px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #a5d6a7;
+            color: #1b5e20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #c8e6c9;
+        }
+
+        /* Right Section */
+
+        .form-section {
+            padding: 50px 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 28px;
+        }
+
+        .form-header h2 {
+            color: #183b25;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Messages */
+
+        .message {
+            padding: 13px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #1b5e20;
+        }
+
+        .error {
+            background: #ffebee;
+            border: 1px solid #ef9a9a;
+            color: #c62828;
+        }
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            height: 48px;
+            padding: 0 15px;
+            border: 1px solid #d9d9d9;
+            border-radius: 10px;
+            background: #fafafa;
+            color: #222;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .input-wrapper input:focus {
+            background: #ffffff;
+            border-color: #43a047;
+            box-shadow: 0 0 0 4px rgba(67, 160, 71, 0.10);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #aaa;
+        }
+
+        /* Password */
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #388e3c;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .password-strength {
+            margin-top: 7px;
+            height: 4px;
+            border-radius: 10px;
+            background: #eeeeee;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            width: 0;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .strength-text {
+            margin-top: 5px;
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* Button */
+
+        .register-btn {
+            width: 100%;
+            height: 50px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2e7d32, #43a047);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 7px 18px rgba(46, 125, 50, 0.22);
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.30);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Bottom Links */
+
+        .login-text {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .login-text a {
+            color: #2e7d32;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 14px;
+            color: #888;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .home-link:hover {
+            color: #2e7d32;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 850px) {
+
+            .register-card {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+            }
+
+            .brand-section {
+                min-height: 300px;
+                padding: 35px;
+            }
+
+            .brand-content h1 {
+                font-size: 32px;
+            }
+
+            .impact-list {
+                display: none;
+            }
+
+            .copyright {
+                display: none;
+            }
+
+            .form-section {
+                padding: 40px 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .register-card {
+                border-radius: 18px;
+            }
+
+            .brand-section {
+                padding: 30px 25px;
+            }
+
+            .form-section {
+                padding: 30px 25px;
+            }
+
+            .form-header h2 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-card">
+
+        <!-- LEFT BRAND SECTION -->
+
+        <section class="brand-section">
+
+            <div class="brand">
+                Share<span>Care</span>
+            </div>
+
+            <div class="brand-content">
+
+                <h1>
+                    Be part of<br>
+                    something meaningful.
+                </h1>
+
+                <p>
+                    Join ShareCare and help connect surplus food
+                    and clothing with people who need them.
+                    Together, we can reduce waste and strengthen
+                    our community.
+                </p>
+
+                <ul class="impact-list">
+
+                    <li>
+                        <span class="check">✓</span>
+                        Share surplus food
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Donate unused clothing
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Help people in need
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="copyright">
+                © 2026 ShareCare. Together for a better tomorrow.
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT FORM SECTION -->
+
+        <section class="form-section">
+
+            <div class="form-header">
+
+                <h2>Create your account</h2>
+
+                <p>
+                    Register with ShareCare and start making an impact.
+                </p>
+
+            </div>
+
+
+            <!-- SUCCESS MESSAGE -->
+
+            <div th:if="${success}"
+                 class="message success"
+                 th:text="${success}">
+            </div>
+
+
+            <!-- ERROR MESSAGE -->
+
+            <div th:if="${error}"
+                 class="message error"
+                 th:text="${error}">
+            </div>
+
+
+            <!-- REGISTRATION FORM -->
+
+            <form th:action="@{/register}"
+                  th:object="${user}"
+                  method="post">
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="text"
+                            id="name"
+                            th:field="*{name}"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            th:field="*{phone}"
+                            placeholder="Enter 10-digit phone number"
+                            maxlength="10"
+                            pattern="[0-9]{10}"
+                            inputmode="numeric"
+                            autocomplete="tel"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            th:field="*{password}"
+                            placeholder="Create a password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword()">
+                            SHOW
+                        </button>
+
+                    </div>
+
+                    <div class="password-strength">
+                        <div
+                            id="strengthBar"
+                            class="strength-bar">
+                        </div>
+                    </div>
+
+                    <div
+                        id="strengthText"
+                        class="strength-text">
+                        Use at least 6 characters.
+                    </div>
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="text"
+                            id="address"
+                            th:field="*{address}"
+                            placeholder="Enter your address"
+                            autocomplete="street-address"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="register-btn">
+
+                    Create ShareCare Account
+
+                </button>
+
+            </form>
+
+
+            <!-- LOGIN -->
+
+            <div class="login-text">
+
+                Already have an account?
+
+                <a href="/login">
+                    Login
+                </a>
+
+            </div>
+
+
+            <!-- HOME -->
+
+            <a href="/" class="home-link">
+                ← Back to ShareCare Home
+            </a>
+
+        </section>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /* Show / Hide Password */
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.querySelector(".show-password");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+                button.textContent = "HIDE";
+
+            } else {
+
+                password.type = "password";
+                button.textContent = "SHOW";
+
+            }
+        }
+
+
+        /* Password Strength */
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const strengthBar =
+            document.getElementById("strengthBar");
+
+        const strengthText =
+            document.getElementById("strengthText");
+
+
+        passwordInput.addEventListener("input", function () {
+
+            const value = passwordInput.value;
+
+            let strength = 0;
+
+            if (value.length >= 6) {
+                strength++;
+            }
+
+            if (value.length >= 8) {
+                strength++;
+            }
+
+            if (/[A-Z]/.test(value)) {
+                strength++;
+            }
+
+            if (/[0-9]/.test(value)) {
+                strength++;
+            }
+
+            if (/[^A-Za-z0-9]/.test(value)) {
+                strength++;
+            }
+
+
+            if (value.length === 0) {
+
+                strengthBar.style.width = "0";
+                strengthText.textContent =
+                    "Use at least 6 characters.";
+
+            } else if (strength <= 2) {
+
+                strengthBar.style.width = "35%";
+                strengthText.textContent =
+                    "Weak password";
+
+            } else if (strength <= 3) {
+
+                strengthBar.style.width = "65%";
+                strengthText.textContent =
+                    "Medium password";
+
+            } else {
+
+                strengthBar.style.width = "100%";
+                strengthText.textContent =
+                    "Strong password";
+
+            }
+
+        });
+
+
+        /* Allow only numbers in phone field */
+
+        const phoneInput =
+            document.getElementById("phone");
+
+        phoneInput.addEventListener("input", function () {
+
+            this.value = this.value.replace(/\D/g, "");
+
+        });
+
+    </script>
+
+</body>
+
+</html>
+

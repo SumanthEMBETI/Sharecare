@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>ShareCare | My Profile</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f5f7f6;
+        color: #263238;
+        min-height: 100vh;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 245px;
+        height: 100vh;
+        background: #12372a;
+        color: white;
+        padding: 28px 18px;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 0 12px;
+        margin-bottom: 35px;
+    }
+
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: #2e7d32;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .brand-name {
+        font-size: 23px;
+        font-weight: 700;
+    }
+
+    /* ================= DASHBOARD BUTTON ================= */
+
+    .dashboard-btn {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 13px 14px;
+        border-radius: 10px;
+        background: #24513d;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.25s;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-btn:hover {
+        background: #2e7d32;
+    }
+
+    .menu-icon {
+        width: 23px;
+        text-align: center;
+        font-size: 17px;
+    }
+
+    /* ================= SIDEBAR BOTTOM ================= */
+
+    .sidebar-bottom {
+        margin-top: auto;
+    }
+
+    .help-box {
+        background: #1b4635;
+        padding: 17px;
+        border-radius: 12px;
+        margin-bottom: 18px;
+    }
+
+    .help-box h4 {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .help-box p {
+        color: #b8ccc1;
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+    }
+
+    .help-box a {
+        color: #b9e4bf;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .logout {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        color: #c7d7cf;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+
+    .logout:hover {
+        background: #24513d;
+        color: white;
+    }
+
+    /* ================= MAIN ================= */
+
+    .main {
+        margin-left: 245px;
+        min-height: 100vh;
+    }
+
+    /* ================= TOPBAR ================= */
+
+    .topbar {
+        height: 75px;
+        background: white;
+        border-bottom: 1px solid #e7ece9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 38px;
+    }
+
+    .page-title {
+        font-size: 15px;
+        color: #78909c;
+    }
+
+    .top-right {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+    .notification {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #f1f6f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+    }
+
+    /* ================= PROFILE TOP ================= */
+
+    .profile-mini {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-mini-avatar {
+        width: 39px;
+        height: 39px;
+        border-radius: 50%;
+        background: #dcedc8;
+        color: #2e7d32;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        overflow: hidden;
+    }
+
+    .profile-mini-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-mini-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .profile-mini-role {
+        display: block;
+        color: #90a4ae;
+        font-size: 11px;
+        margin-top: 2px;
+    }
+
+    /* ================= CONTENT ================= */
+
+    .content {
+        padding: 38px;
+        max-width: 1250px;
+    }
+
+    /* ================= PAGE HEADER ================= */
+
+    .page-header {
+        margin-bottom: 28px;
+    }
+
+    .page-header h1 {
+        font-size: 28px;
+        color: #263238;
+        margin-bottom: 7px;
+    }
+
+    .page-header p {
+        color: #78909c;
+        font-size: 14px;
+    }
+
+    /* ================= PROFILE GRID ================= */
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: 330px 1fr;
+        gap: 25px;
+    }
+
+    /* ================= PROFILE CARD ================= */
+
+    .profile-card {
+        background: white;
+        border: 1px solid #e8eeea;
+        border-radius: 18px;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .profile-card h2 {
+        font-size: 19px;
+        margin-bottom: 6px;
+    }
+
+    .profile-card-subtitle {
+        color: #90a4ae;
+        font-size: 12px;
+        margin-bottom: 25px;
+    }
+
+    /* ================= LARGE AVATAR ================= */
+
+    .profile-avatar {
+        width: 145px;
+        height: 145px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: #e8f5e9;
+        color: #2e7d32;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: 700;
+        overflow: hidden;
+        border: 6px solid #f4faf5;
+        box-shadow: 0 8px 25px rgba(46, 125, 50, 0.10);
+    }
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* ================= PHOTO UPLOAD ================= */
+
+    .photo-form {
+        margin-top: 10px;
+    }
+
+    .upload-label {
+        display: inline-block;
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .upload-label:hover {
+        background: #c8e6c9;
+    }
+
+    .photo-input {
+        display: none;
+    }
+
+    .upload-btn {
+        display: block;
+        width: 100%;
+        margin-top: 12px;
+        padding: 11px;
+        border: none;
+        border-radius: 8px;
+        background: #2e7d32;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .upload-btn:hover {
+        background: #1b5e20;
+    }
+
+    .photo-note {
+        color: #90a4ae;
+        font-size: 10px;
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+
+    /* ================= FORM CARD ================= */
+
+    .details-card {
+        background: white;
+        border: 1px solid #e8eeea;
+        border-radius: 18px;
+        padding: 32px;
+    }
+
+    .details-header {
+        border-bottom: 1px solid #edf1ee;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+    .details-header h2 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .details-header p {
+        color: #90a4ae;
+        font-size: 12px;
+    }
+
+    /* ================= ALERTS ================= */
+
+    .success-message {
+        background: #e8f5e9;
+        border: 1px solid #c8e6c9;
+        color: #2e7d32;
+        padding: 12px 15px;
+        border-radius: 9px;
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .error-message {
+        background: #ffebee;
+        border: 1px solid #ffcdd2;
+        color: #c62828;
+        padding: 12px 15px;
+        border-radius: 9px;
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    /* ================= FORM ================= */
+
+    .form-group {
+        margin-bottom: 21px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: #455a64;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        border: 1px solid #dfe7e2;
+        border-radius: 9px;
+        padding: 13px 14px;
+        font-family: inherit;
+        font-size: 13px;
+        color: #263238;
+        outline: none;
+        transition: 0.2s;
+        background: #fbfcfb;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #2e7d32;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.08);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 105px;
+    }
+
+    .field-note {
+        display: block;
+        color: #90a4ae;
+        font-size: 10px;
+        margin-top: 6px;
+    }
+
+    /* ================= SAVE BUTTON ================= */
+
+    .save-btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 9px;
+        background: #2e7d32;
+        color: white;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.25s;
+        box-shadow: 0 7px 18px rgba(46, 125, 50, 0.14);
+    }
+
+    .save-btn:hover {
+        background: #1b5e20;
+        transform: translateY(-1px);
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        margin-left: 245px;
+        background: #102a1d;
+        color: white;
+        text-align: center;
+        padding: 25px 20px;
+    }
+
+    footer p {
+        color: #90a4ae;
+        font-size: 12px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 950px) {
+
+        .profile-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-card {
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+        }
+    }
+
+    @media (max-width: 750px) {
+
+        .sidebar {
+            display: none;
+        }
+
+        .main {
+            margin-left: 0;
+        }
+
+        footer {
+            margin-left: 0;
+        }
+
+        .topbar {
+            padding: 0 18px;
+        }
+
+        .content {
+            padding: 25px 18px;
+        }
+
+        .page-title {
+            display: none;
+        }
+
+        .profile-mini-name,
+        .profile-mini-role {
+            display: none;
+        }
+
+        .details-card {
+            padding: 24px;
+        }
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+
+<div class="brand">
+
+    <div class="brand-icon">
+        S
+    </div>
+
+    <div class="brand-name">
+        ShareCare
+    </div>
+
+</div>
+
+<!-- ONLY DASHBOARD BUTTON -->
+
+<a href="/dashboard" class="dashboard-btn">
+
+    <span class="menu-icon">⌂</span>
+
+    Dashboard
+
+</a>
+
+<!-- ================= SIDEBAR BOTTOM ================= -->
+
+<div class="sidebar-bottom">
+
+    <div class="help-box">
+
+        <h4>Need Help?</h4>
+
+        <p>
+            Have questions about donating or requesting support?
+        </p>
+
+        <a href="/contact">
+            Contact Support →
+        </a>
+
+    </div>
+
+    <a href="/logout" class="logout">
+
+        <span class="menu-icon">↪</span>
+
+        Logout
+
+    </a>
+
+</div>
+
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+
+<!-- ================= TOPBAR ================= -->
+
+<header class="topbar">
+
+    <div class="page-title">
+        My Profile
+    </div>
+
+    <div class="top-right">
+
+        <div class="notification">
+            🔔
+        </div>
+
+        <div class="profile-mini">
+
+            <div class="profile-mini-avatar">
+
+                <img
+                    th:if="${user.profilePhoto != null}"
+                    src="/profile/photo"
+                    alt="Profile Photo">
+
+                <span
+                    th:if="${user.profilePhoto == null}"
+                    th:text="${user.name != null and !user.name.isEmpty() ? #strings.substring(user.name,0,1).toUpperCase() : 'U'}">
+
+                    U
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <div
+                    class="profile-mini-name"
+                    th:text="${user.name}">
+
+                    ShareCare User
+
+                </div>
+
+                <span class="profile-mini-role">
+                    Community Member
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- ================= CONTENT ================= -->
+
+<main class="content">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            Manage your personal information and profile photo.
+        </p>
+
+    </div>
+
+    <!-- PROFILE GRID -->
+
+    <div class="profile-grid">
+
+        <!-- ================= PHOTO CARD ================= -->
+
+        <section class="profile-card">
+
+            <h2>
+                Profile Photo
+            </h2>
+
+            <p class="profile-card-subtitle">
+                Keep your profile recognizable
+            </p>
+
+            <!-- PROFILE IMAGE -->
+
+            <div class="profile-avatar">
+
+                <img
+                    th:if="${user.profilePhoto != null}"
+                    src="/profile/photo"
+                    alt="Profile Photo">
+
+                <span
+                    th:if="${user.profilePhoto == null}"
+                    th:text="${user.name != null and !user.name.isEmpty() ? #strings.substring(user.name,0,1).toUpperCase() : 'U'}">
+
+                    U
+
+                </span>
+
+            </div>
+
+            <!-- PHOTO UPLOAD FORM -->
+
+            <form
+                class="photo-form"
+                action="/profile/photo"
+                method="post"
+                enctype="multipart/form-data">
+
+                <label
+                    for="photo"
+                    class="upload-label">
+
+                    Choose Photo
+
+                </label>
+
+                <input
+    type="file"
+    id="photo"
+    name="photo"
+    class="photo-input"
+    accept="image/jpeg,image/png,image/jpg"
+    required>
+
+                <button
+                    type="submit"
+                    class="upload-btn">
+
+                    Upload Photo
+
+                </button>
+
+            </form>
+
+            <p class="photo-note">
+
+                Recommended: JPG or PNG<br>
+                Use a clear profile picture.
+
+            </p>
+
+        </section>
+
+        <!-- ================= DETAILS CARD ================= -->
+
+        <section class="details-card">
+
+            <div class="details-header">
+
+                <h2>
+                    Personal Information
+                </h2>
+
+                <p>
+                    Update your information below and save your changes.
+                </p>
+
+            </div>
+
+            <!-- SUCCESS -->
+
+            <div
+                th:if="${success != null}"
+                class="success-message"
+                th:text="${success}">
+
+                Profile updated successfully
+
+            </div>
+
+            <!-- ERROR -->
+
+            <div
+                th:if="${error != null}"
+                class="error-message"
+                th:text="${error}">
+
+                Something went wrong
+
+            </div>
+
+            <!-- UPDATE FORM -->
+
+            <form
+                action="/profile/update"
+                method="post">
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        th:value="${user.name}"
+                        placeholder="Enter your full name"
+                        required>
+
+                </div>
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        th:value="${user.phone}"
+                        placeholder="Enter your phone number"
+                        required>
+
+                    <span class="field-note">
+                        Your phone number is used for account login.
+                    </span>
+
+                </div>
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter your address"
+                        th:text="${user.address}"></textarea>
+
+                </div>
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    Save Changes
+
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+</div>
+<script>
+document.querySelector(".photo-form").addEventListener("submit", function(event) {
+
+    const fileInput = document.getElementById("photo");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    // Maximum 10 MB
+    const maxSize = 5 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+        event.preventDefault();
+
+        alert("Profile photo must be smaller than 10 MB.");
+
+        fileInput.value = "";
+    }
+});
+</script>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+
+<p>
+    © 2026 ShareCare · Share what you have. Care for someone.
+</p>
+
+</footer>
+
+</body>
+
+</html>
